@@ -69,7 +69,7 @@ export default class Parser {
 
   // Handle complex statement types
   private parse_stmt(): Stmt {
-    // skip to parse_expr
+    // skip to parse_expr because we currently only support expressions (i.e. no variables, while loops etc.)
     return this.parse_expr();
   }
 
@@ -101,7 +101,9 @@ export default class Parser {
     let left = this.parse_primary_expr();
 
     while (
-      this.at().value == "/" || this.at().value == "*" || this.at().value == "%"
+      this.at().value == "/" ||
+      this.at().value == "*" ||
+      this.at().value == "%"
     ) {
       const operator = this.eat().value;
       const right = this.parse_primary_expr();
@@ -144,7 +146,7 @@ export default class Parser {
         const value = this.parse_expr();
         this.expect(
           TokenType.CloseParen,
-          "Unexpected token found inside parenthesised expression. Expected closing parenthesis.",
+          "Unexpected token found inside parenthesised expression. Expected closing parenthesis."
         ); // closing paren
         return value;
       }
